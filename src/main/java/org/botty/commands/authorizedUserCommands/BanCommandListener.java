@@ -43,7 +43,8 @@ public class BanCommandListener extends ListenerAdapter {
                     Member target = event.getGuild().retrieveMemberById(userId).complete();
 
                     if (target != null) {
-                        String reason = args.length > 2 ? String.join(" ", args).substring(args[0].length() + args[1].length()).trim() : "No reason provided";
+                        //String reason = args.length > 2 ? String.join(" ", args).substring(args[0].length() + args[1].length()).trim() : "No reason provided";
+                        String reason = args.length > 2 ? String.join(" ", args).substring(args[0].length() + 1 + args[1].length() + 1).trim() : "No reason provided";
 
                         // Ban the user with a deletion timeframe of 0 days
                         event.getGuild().ban(target, 0, TimeUnit.DAYS)

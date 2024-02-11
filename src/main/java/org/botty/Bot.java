@@ -13,11 +13,17 @@ public class Bot extends ListenerAdapter {
     private final static String TOKEN = (Configuration.TOKEN);
 
     public static void main(String[] args) {
-        JDA jda = JDABuilder.createDefault(TOKEN)
-                .addEventListeners(new BotReadyListener())
-                .build();
-        jda.enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT); // Enable intents
+        try {
+            JDABuilder builder = JDABuilder.createDefault(TOKEN)
+                    // Enable intents here
+                    .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
+                    .addEventListeners(new BotReadyListener());
 
+            JDA jda = builder.build();
+            jda.awaitReady(); // Optional, but can be useful to ensure JDA is fully initialized
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static class BotReadyListener extends ListenerAdapter {
@@ -33,14 +39,11 @@ public class Bot extends ListenerAdapter {
 
             //SlashCommandCall
             initializeSlashCommands(jda);
-
-
         }
 
         private void initializeSlashCommands(JDA jda) {
             jda.upsertCommand("ping", "Check bot's latency")
                     .queue();
-
         }
     }
 }
